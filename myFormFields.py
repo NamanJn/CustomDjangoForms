@@ -1,4 +1,5 @@
 from django import forms
+from django.core.validators import RegexValidator
 
 class PositiveIntegerField(forms.IntegerField):
     def __init__(self, *args, **kwargs):
@@ -12,6 +13,9 @@ class PositiveIntegerField(forms.IntegerField):
 
 class OptionalPositiveIntegerField(PositiveIntegerField):
     def __init__(self, *args, **kwargs):
+
+        if not kwargs.get('widget'):
+            kwargs['widget'] = forms.NumberInput(attrs={})
         super(OptionalPositiveIntegerField, self).__init__( required=False, *args, **kwargs)
 
 class OptionalPercentField(OptionalPositiveIntegerField):
